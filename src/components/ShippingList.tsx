@@ -7,25 +7,68 @@ import { TIGQuery } from "../types/TIGQuery";
 import { SortValues } from "../types/types";
 import { ShipmentSortPanel } from "./ShipmentSortPanel";
 
+const sortShipments = (
+  shipments: Shipment[],
+  dateSorting: SortValues,
+  statusSorting: SortValues
+) => {
+  let sortedShipments = [...shipments];
+
+  switch (dateSorting) {
+    case "ascending":
+      return sortedShipments.sort((a, b) =>
+        a?.trackingId?.localeCompare(b?.trackingId)
+      );
+    case "descending":
+      return sortedShipments.sort((a, b) =>
+        b?.trackingId?.localeCompare(a?.trackingId)
+      );
+  }
+
+  switch (statusSorting) {
+    case "ascending":
+      return sortedShipments.sort((a) => (a?.status === "Delivered" ? 1 : -1));
+    case "descending":
+      return sortedShipments.sort((a) => (a?.status === "Delivered" ? -1 : 1));
+  }
+  return sortedShipments;
+};
+
 type ShipmentListProps = {
   onSelect: (shipment: Shipment) => void;
 };
 
 export const ShipmentList: FC<ShipmentListProps> = ({ onSelect }) => {
   const { loading, error, data } = useQuery<TIGQuery>(shipmentsQuery);
-  const [sortField, setSortField] = useState<SortValues>("none");
-  const [ascending, setAscending] = useState(false);
+  const [dateSorting, setDateSorting] = useState<SortValues>("none");
+  const [statusSorting, setStatusSorting] = useState<SortValues>("none");
 
-  const handleSort = (field: SortValues) => {
-    setSortField(field);
-    setAscending(!ascending);
+  const handleDateSorting = () => {
+    setStatusSorting("none");
+    setDateSorting((oldValue) => {
+      switch (oldValue) {
+        case "ascending":
+          return "descending";
+        case "descending":
+          return "none";
+        default:
+          return "ascending";
+      }
+    });
   };
 
-  const sortComparator = (a: Shipment, b: Shipment) => {
-    if (sortField === "none") return 0;
-    let x = Number(a[sortField] ?? "0");
-    let y = Number(b[sortField] ?? "0");
-    return ascending ? y - x : x - y;
+  const handleStatusSorting = () => {
+    setStatusSorting((oldValue) => {
+      setDateSorting("none");
+      switch (oldValue) {
+        case "ascending":
+          return "descending";
+        case "descending":
+          return "none";
+        default:
+          return "ascending";
+      }
+    });
   };
 
   if (error) {
@@ -35,14 +78,16 @@ export const ShipmentList: FC<ShipmentListProps> = ({ onSelect }) => {
     return "loading";
   }
   if (!data) return null;
-  let shipments = data.shipments.sort(sortComparator);
+  let shipments = sortShipments(data.shipments, dateSorting, statusSorting);
+
   return (
-    <div className="grid grid-cols-[30%_70%]">
-      <ShipmentSortPanel onSort={handleSort} />
+    <div className="">
+      <ShipmentSortPanel
+        onDateSorting={handleDateSorting}
+        onStatusSorting={handleStatusSorting}
+      />
       {shipments.map((shipment) => (
-        <div key={shipment.id}>
-          <ShipmentItem shipment={shipment} onSelect={onSelect} />
-        </div>
+        <ShipmentItem key={shipment.id} shipment={shipment} onSelect={onSelect} />
       ))}
     </div>
   );

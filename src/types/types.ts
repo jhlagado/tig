@@ -1,2 +1,1 @@
-export type SortValues = 'none'|'lastUpdate'|'status';
-
+export type SortValues = "none" | "ascending" | "descending";
