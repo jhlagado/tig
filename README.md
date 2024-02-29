@@ -13,6 +13,7 @@
 ### Shipment Details View
 
 - This is what I could achieve in 8 hours.
-- Didn't have time to learn Chakra, mixed in a lot of Tailwind.
+- Didn't have time to learn Chakra.
+- Most styling done with Tailwind.
 - The general look is a bit rough when compared to the Figma.
 - Unit tests are missing.
