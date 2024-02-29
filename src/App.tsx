@@ -1,5 +1,4 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import "./App.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ShipmentPanel } from "./components/ShipmentPanel";
 
