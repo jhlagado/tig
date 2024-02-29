@@ -16,4 +16,5 @@
 - Didn't have time to learn Chakra.
 - Most styling done with Tailwind.
 - The general look is a bit rough when compared to the Figma.
+- Didn't use codegen to generate the types
 - Unit tests are missing.
