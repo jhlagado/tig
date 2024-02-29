@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Shipment } from "../types/Shipment";
 import { TrackingEventList } from "./TrackingEventList";
 
-interface ShipmentDetailsProps {
+type ShipmentDetailsProps ={
   shipment: Shipment;
 }
 

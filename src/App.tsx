@@ -1,14 +1,7 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  useQuery,
-} from "@apollo/client";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import "./App.css";
-import { useState } from "react";
-import { Shipment } from "./types/Shipment";
-import { ShipmentList } from "./components/ShippingList";
 import { ChakraProvider } from "@chakra-ui/react";
+import { ShipmentPanel } from "./components/ShipmentPanel";
 
 const client = new ApolloClient({
   uri: "https://fe-coding-test-o6yezgstiq-km.a.run.app/graphql",
@@ -25,24 +18,10 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const [showDetails, setShowDetails] = useState(false);
-
-  const handleSelected = (shipment: Shipment) => {
-    console.log({ shipment });
-    setShowDetails(true);
-  };
-
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
-        <main className="">
-          <ShipmentList onSelect={handleSelected} />
-        </main>
-        {showDetails && (
-          <details>
-            <p className="text-red-600">Shipment details</p>
-          </details>
-        )}
+        <ShipmentPanel />
       </ChakraProvider>
     </ApolloProvider>
   );

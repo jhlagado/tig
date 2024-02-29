@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { TrackingEvent } from "../types/TrackingEvent";
 
-interface TrackingEventItemProps {
+type TrackingEventItemProps = {
   trackingEvent: TrackingEvent;
-}
+};
 
 export const TrackingEventItem: FC<TrackingEventItemProps> = ({
   trackingEvent,

@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import { TIGQuery } from "../types/TIGQuery";
 import { TrackingEventItem } from "./TrackingEventItem";
 
-interface TrackingEventListProps {
+type TrackingEventListProps = {
   trackingId: string;
 }
 
